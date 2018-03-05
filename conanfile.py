@@ -7,14 +7,14 @@ import os
 
 class FollyConan(ConanFile):
     name = "folly"
-    version = "0.58.0"
+    version = "2018.02.26.00"
     release = "2018.02.26.00" # check contained cmakelists for version number
     description = "An open-source C++ library developed and used at Facebook"
     url = "https://github.com/bincrafters/conan-folly"
     homepage = "https://github.com/facebook/folly"
     license = "Apache 2.0"
     exports = ["LICENSE.md"]
-    exports_sources = ["CMakeLists.txt"]
+    exports_sources = ["CMakeLists.txt", "FindFolly.cmake"]
     generators = "cmake"
     source_subfolder = "folly"
     build_subfolder = "build_subfolder"
@@ -62,6 +62,7 @@ class FollyConan(ConanFile):
     def package(self):
         cmake = self._configure_cmake()
         cmake.install()
+        self.copy("FindFolly.cmake", ".", ".")
         self.copy(pattern="LICENSE", dst="licenses", src=self.source_subfolder)
 
     def package_info(self):
